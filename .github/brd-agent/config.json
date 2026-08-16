@@ -1,0 +1,53 @@
+{
+  "$comment": "Configuration read by the brd-analyst and jira-publisher agents. Replace every <<PLACEHOLDER>> once, commit, done. Values without << >> are working defaults. Both agents refuse to call tools with an unfilled <<...>> value.",
+
+  "jira": {
+    "site": "<<your-site>>.atlassian.net",
+    "projectKey": "<<SFDC>>",
+    "issueTypes": {
+      "$comment": "Exact issue-type names in your project (getJiraProjectIssueTypesMetadata). Team-managed projects use \"Subtask\", company-managed \"Sub-task\".",
+      "epic": "Epic",
+      "story": "Story",
+      "subtask": "Sub-task"
+    },
+    "fields": {
+      "$comment": "Ask brd-analyst: 'call getJiraIssueTypeMetaWithFields for project <KEY>, issue type Story, and list the field ids whose name contains Story point'. Story Points is customfield_10016 on most team-managed sites, customfield_10028/10024 on many company-managed sites — verify. acceptanceCriteria is optional: a custom-field id to ALSO receive the Gherkin AC (it is always written into the description).",
+      "storyPoints": "<<customfield_10016>>",
+      "acceptanceCriteria": null
+    },
+    "labels": ["brd-agent"],
+    "components": [],
+    "testCaseStrategy": "subtask",
+    "$comment_testCaseStrategy": "subtask = one Sub-task per test under the story (works everywhere, default) | issue = separate issues of testIssueType (Xray 'Test' or Zephyr Squad; Zephyr Scale is NOT supported — its tests are not Jira issues) linked via createIssueLink with testLinkType, falls back to subtask | description = test-case table inside the story description",
+    "testIssueType": "Test",
+    "testLinkType": "Tests",
+    "calibrationJql": "project = <<SFDC>> AND issuetype = Story AND statusCategory = Done AND resolved >= -180d ORDER BY resolved DESC",
+    "defectHistoryJql": null
+  },
+
+  "salesforce": {
+    "targetOrgAlias": "dev-sandbox",
+    "$comment": "Must be a SANDBOX alias created with `sf org login web -a dev-sandbox --instance-url https://<MyDomain>--<sandbox>.sandbox.my.salesforce.com` (test.salesforce.com only works if the sandbox's My Domain login policy allows it). Must match the --orgs value in .vscode/mcp.json. brd-analyst passes it as usernameOrAlias on every call and verifies Organization.IsSandbox before using org tools."
+  },
+
+  "standardsFiles": [
+    ".github/instructions/apex-code-review.instructions.md",
+    ".github/instructions/flow-code-review.instructions.md"
+  ],
+  "$comment_standardsFiles": "Point these at your REAL Apex / Flow / LWC review instruction files (any path). .github/copilot-instructions.md and .github/instructions/**/*.instructions.md are always read in addition. Files still marked PLACEHOLDER make the analyst fall back to rubric defaults and cap confidence at M.",
+
+  "estimation": {
+    "hoursPerStoryPoint": 6,
+    "storyPointScale": [1, 2, 3, 5, 8, 13],
+    "roles": ["Dev", "QA", "Admin/Config", "BA", "Review/Lead"],
+    "standardsOverheadPct": {
+      "$comment": "Sanity FLOOR, not the estimate: itemized standards tasks derived from the instruction files are authoritative; the analyst flags a story if itemized < pct or > 2x pct of the base defined in rubric §3.",
+      "apex": 30,
+      "flow": 20,
+      "lwc": 25,
+      "config": 10
+    },
+    "definitionOfDoneTaxHoursPerStory": 3,
+    "riskBufferPct": { "H": 10, "M": 20, "L": 35 }
+  }
+}

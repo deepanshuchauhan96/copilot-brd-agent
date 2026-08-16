@@ -1,0 +1,18 @@
+{
+  "servers": {
+    "atlassian": {
+      "type": "http",
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2"
+    },
+    "salesforce": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y", "@salesforce/mcp@0.30.15",
+        "--orgs", "dev-sandbox",
+        "--toolsets", "data,scale-products",
+        "--no-telemetry"
+      ]
+    }
+  }
+}
