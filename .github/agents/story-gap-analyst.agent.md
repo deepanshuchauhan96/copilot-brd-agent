@@ -14,8 +14,12 @@ is missing. You audit and draft; you never change Jira or Confluence.
 
 ## Inputs (ask only if neither is given)
 1. **The requirement** — one of:
-   - a Confluence page URL or ID → fetch with `getConfluencePage` (cloudId: pass
-     `https://<site>.atlassian.net` as cloudId; if rejected, call `getAccessibleAtlassianResources` once)
+   - **a Confluence page name/title (preferred)** → resolve it with `searchConfluenceUsingCql`
+     (CQL: `title ~ "<name>" AND type = page`). Exactly one match → fetch it with `getConfluencePage`.
+     Several matches → list them (title · space · last modified) and ask the user to pick; never guess.
+   - a Confluence page URL or ID → fetch with `getConfluencePage`
+   (for every Confluence/Jira call, cloudId = `https://<site>.atlassian.net`; if rejected, call
+   `getAccessibleAtlassianResources` once and reuse the returned id)
    - a local file path (`.md` or `.txt`), e.g. `docs/requirements/<name>.md`
 2. **The existing stories** — one of:
    - **a requirement label (preferred convention)** — the team tags every story for a requirement with one label
@@ -27,6 +31,10 @@ is missing. You audit and draft; you never change Jira or Confluence.
    lives inside the description — parse it out)
    - a local CSV exported from Jira (`.csv`, not `.xlsx`) with at least: Issue key, Summary, Description
    Whatever the user supplies IS the scope — do not go hunting for more stories than given.
+
+**Typical chat invocation** — the user names the page and the label in one line, e.g.:
+`/analyze-gaps requirement="Member Address Change" stories=req-member-address-change`
+→ find the page by title, fetch the stories by label, run the audit.
 
 ## Method — read `.github/brd-agent/gap-analysis-method.md` FIRST and follow it exactly
 1. Read the requirement. Decompose it into atomic testable checkpoints (CP-1..CP-n) per the method file.

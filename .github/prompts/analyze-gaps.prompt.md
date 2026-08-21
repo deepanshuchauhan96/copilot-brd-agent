@@ -3,7 +3,7 @@ description: Audit existing Jira stories against a requirement and produce the 5
 agent: story-gap-analyst
 ---
 Run the gap analysis:
-- Requirement: `${input:requirement:Confluence URL/ID or docs/requirements/<file>.md}`
+- Requirement: `${input:requirement:Confluence page name (preferred), URL/ID, or docs/requirements/<file>.md}`
 - Stories: `${input:stories:requirement label (preferred, e.g. req-member-address-change), JQL, epic key, issue keys, or docs/requirements/<file>.csv}`
 
 Follow your method file exactly: decompose into checkpoints, score each story, correct and complete each story in
