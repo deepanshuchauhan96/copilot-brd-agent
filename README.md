@@ -17,6 +17,11 @@ BRD ──▶ @brd-analyst ──▶ analysis.md + backlog.json ──▶ 👤 r
               │  reads: repo, CODEBASE_MAP, instruction files, rubric, (sandbox org), (Jira history)
 ```
 
+## Related: Story Gap Analyst (separate repo)
+The `story-gap-analyst` agent — auditing existing Jira stories against a requirement (5-column gap table with
+completeness percentages) — lives in its own repo with its samples and examples:
+**https://github.com/deepanshuchauhan96/story-gap-analyst**. This repo keeps the BRD→backlog agents only.
+
 ## What's in here
 ```
 .github/agents/brd-analyst.agent.md          the analyst agent (read-only toward Jira/org, no shell, no web)
