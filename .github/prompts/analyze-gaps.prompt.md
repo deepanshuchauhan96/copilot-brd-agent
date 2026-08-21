@@ -4,7 +4,7 @@ agent: story-gap-analyst
 ---
 Run the gap analysis:
 - Requirement: `${input:requirement:Confluence URL/ID or docs/requirements/<file>.md}`
-- Stories: `${input:stories:JQL, epic key, issue keys, or docs/requirements/<file>.csv}`
+- Stories: `${input:stories:requirement label (preferred, e.g. req-member-address-change), JQL, epic key, issue keys, or docs/requirements/<file>.csv}`
 
 Follow your method file exactly: decompose into checkpoints, score each story, correct and complete each story in
 columns 3-4, draft missing stories as NEW rows, compute percentages, and write both gap-analysis.md and

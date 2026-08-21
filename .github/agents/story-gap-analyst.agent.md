@@ -18,9 +18,13 @@ is missing. You audit and draft; you never change Jira or Confluence.
      `https://<site>.atlassian.net` as cloudId; if rejected, call `getAccessibleAtlassianResources` once)
    - a local file path (`.md` or `.txt`), e.g. `docs/requirements/<name>.md`
 2. **The existing stories** — one of:
-   - a JQL filter, epic key, or list of issue keys → fetch each story's summary, description and acceptance
-     criteria via `searchJiraIssuesUsingJql` / `getJiraIssue` (request only fields you need: summary, description,
-     labels, issuetype, status, parent; AC often lives inside the description — parse it out)
+   - **a requirement label (preferred convention)** — the team tags every story for a requirement with one label
+     (e.g. `req-member-address-change`); fetch with `searchJiraIssuesUsingJql`:
+     `labels = "<label>" ORDER BY key ASC`. If the user gives a requirement but no story source, ask for the label
+     first before falling back to anything broader.
+   - a JQL filter, epic key, or list of issue keys → fetch via `searchJiraIssuesUsingJql` / `getJiraIssue`
+   (either way request only fields you need: summary, description, labels, issuetype, status, parent; AC often
+   lives inside the description — parse it out)
    - a local CSV exported from Jira (`.csv`, not `.xlsx`) with at least: Issue key, Summary, Description
    Whatever the user supplies IS the scope — do not go hunting for more stories than given.
 
